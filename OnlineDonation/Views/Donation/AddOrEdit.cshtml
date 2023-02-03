@@ -1,0 +1,82 @@
+﻿@model OnlineDonation.Models.DonationViewModel
+@{
+    ViewData["Title"] = "Create";
+}
+
+<script src="~/js/Donation/AddOrEdit.js"></script>
+<link href="~/css/AddOrEdit.css" rel="stylesheet" />
+<!-- MultiStep Form -->
+<div class="row">
+    <div class="col-md-12 col-md-offset-6">
+        <form id="msform" asp-action="AddOrEdit" enctype="multipart/form-data">
+            <!-- progressbar -->
+            <ul id="progressbar">
+                <li class="active">Goal</li>
+                <li>Details</li>
+                <li>Image</li>
+            </ul>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <!-- fieldsets -->
+            <fieldset>
+                <h2 class="fs-title">Fund Goal</h2>
+                <span asp-validation-for="GoalAmount" class="text-danger"></span>
+                <input asp-for="GoalAmount" placeholder="Goal Amount" min="1" max="50000" />
+                <span asp-validation-for="RaisedMoneyFor" class="text-danger"></span>
+                <input asp-for="RaisedMoneyFor" placeholder="Raised Money For" />
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+                <select asp-for="CategoryId" asp-items="@ViewBag.Category">
+                    <option selected="selected" value="">Please select category</option>
+                </select>
+                <input type="button" name="next" class="next action-button" value="Next" />
+            </fieldset>
+            <fieldset>
+                <h2 class="fs-title">Fund Description</h2>
+                <span asp-validation-for="Title" class="text-danger"></span>
+                <input asp-for="Title" placeholder="Title" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+                <textarea asp-for="Description" minlength="20" placeholder="Description" rows="6" cols="15"></textarea>
+                <input id="ClosingDate" name="ClosingDate" class="form-control" value="@Model.ClosingDate.ToString("MM/dd/yyyy")" />
+                <span asp-validation-for="ClosingDate" class="text-danger"></span>
+                <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                <input type="button" name="next" class="next action-button" value="Next" />
+            </fieldset>
+            <fieldset>
+                <h2 class="fs-title">Donation Image</h2>
+                <span asp-validation-for="ImagePath" class="text-danger"></span>
+                <input asp-for="ImagePath" id="customFile">
+                @if (Model.Id != 0)
+                {
+                    <div style="text-align:left;">
+                        <img src="~/img/@Model.ImagePathString" width="150" height="150">
+                    </div>
+                }
+
+                <h2 class="fs-title">
+                    Gcash QR Code
+                    <i class="fa fa-question-circle" id="qrCode" data-toggle="tooltip" title="Please click here on how to create Gcash QR Code">
+                    </i>
+                </h2>
+                <span asp-validation-for="QRImagePath" class="text-danger"></span>
+                <input asp-for="QRImagePath" id="customFile">
+                @if (Model.Id != 0)
+                {
+                    <div style="text-align:left;">
+                        @if (Model.QRImagePathString == "")
+                        {
+                            <img src="~/img/HomeLogo.png" width="200" height="100">
+                        }
+                        else
+                        {
+                            <img src="~/img/@Model.QRImagePathString" width="150" height="150">
+                        }
+
+                    </div>
+                }
+                <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                <input type="submit" name="submit" class="submit action-button" value="Submit" />
+            </fieldset>
+        </form>
+    </div>
+</div>
+<!-- /.MultiStep Form -->

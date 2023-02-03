@@ -1,0 +1,137 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using OnlineDonation.Data.Entity
+@inject SignInManager<WebAppUser> SignInManager
+@inject UserManager<WebAppUser> UserManager
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="jumbotron jumbotron-image">
+    <div class="container">
+        <h1>Comillas Greatest Purpose</h1>
+        <p class="lead">Online donation drive for the people and charities you love.</p>
+        <p>Get Started Today.</p>
+        <div class="row">
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <a class="btn btn-primary btn-lg" asp-action="AddOrEdit" asp-controller="Donation" role="button">Start a donation</a>
+            }
+            else
+            {
+                <a class="btn btn-primary btn-lg" asp-area="Identity" asp-page="/Account/Register" role="button">Start a donation</a>
+            }
+
+        </div>
+
+    </div>
+</div>
+<br />
+<br />
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-6">
+            <div class="col">
+                <h2>Spread the word</h2>
+                <p>
+                    You may share this site so you can help anyone to donate!
+                    <br />  <br />
+                    <span class="fa-lg">
+                        <a href="https://www.facebook.com/Care-Club-111992924604202" target="_blank"><i class="fa fa-facebook-official" style="margin-left:20px" data-toggle="tooltip" title="Facebook"></i></a>
+                        <a href="https://twitter.com/CareClub9" target="_blank"> <i class="fa fa-twitter-square" style="margin-left: 20px" data-toggle="tooltip" title="Twitter"></i></a>
+                        <a href="https://www.instagram.com/careclub0730/" target="_blank"><i class="fa fa-instagram" style="margin-left: 20px;" data-toggle="tooltip" title="Instagram"></i></a>
+                    </span>
+                </p>
+                <p>
+                </p>
+            </div>
+            <br />  <br />
+            <div class="col">
+                <h2>Contact</h2>
+                <p>
+                    You may send us an email.
+                    <br />  <br />
+                    <span class="fa-lg">
+                        <a href="mailto:onlinedonationtsu@gmail.com"><i class="fa fa-envelope-o" style="margin-left:20px" data-toggle="tooltip" title="Email Us"></i></a>
+                        <i class="fa fa-phone" data-toggle="tooltip" title="09388779036" style="margin-left:20px"></i>
+                    </span>
+                </p>
+                <p>
+                </p>
+            </div> <!-- /.col -->
+            <!-- /.col -->
+        </div> <!-- /.col-md-6 -->
+
+        <div class="col-md-6">
+            <div class="col">
+                <h2>Share your blessing</h2>
+                <p>
+                    By donating to our site, we will make sure that your money will help the donatee.
+                </p>
+                <p>
+                </p>
+            </div> <!-- /.col -->
+        </div> <!-- /.col-md-6 -->
+
+    </div> <!-- /.row -->
+</div> <!-- /.container -->
+
+<script>
+    $('[data-toggle="tooltip"]').tooltip();
+</script>
+
+@if (SignInManager.IsSignedIn(User))
+{
+    @if (!UserManager.GetUserAsync(User).Result.AnsweredLocation)
+    {
+        <script>
+            getLocation();
+
+            function getLocation() {
+
+                var r = confirm("Do you want to access your location?");
+                if (r == true) {
+                    $.post('/UserDashboard/SaveCurrentUserLocation',
+                        function (returnedData) {
+                            console.log(returnedData);
+                        });
+
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(showPosition, errorCallback);
+                    }
+                    else
+                        console.log("User cant get location");
+                } else {
+                    $.post('/UserDashboard/RejectCurrentUserLocation',
+                        function (returnedData) {
+                            console.log(returnedData);
+                        });
+
+                    console.log("Cancelled");
+                }
+
+
+            }
+
+            function showPosition(position) {
+                $.getJSON("https://api.ipify.org/?format=json", function (e) {
+                    console.log(position.coords.latitude);
+                    console.log(position.coords.longitude);
+                    $.post('/Visitor/SaveVisitor', { ip: e.ip, latitude: position.coords.latitude, longitude: position.coords.longitude },
+                        function (returnedData) {
+                            console.log(returnedData);
+                        });
+                });
+            }
+
+            function errorCallback(error) {
+                if (error.code == error.PERMISSION_DENIED) {
+                    console.log("Location Permission Denied!");
+                }
+            }
+
+
+        </script>
+
+    }
+}

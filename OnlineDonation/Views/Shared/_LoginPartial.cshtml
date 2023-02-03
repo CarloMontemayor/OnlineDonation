@@ -1,0 +1,62 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using OnlineDonation.Data.Entity
+@inject SignInManager<WebAppUser> SignInManager
+@inject UserManager<WebAppUser> UserManager
+
+<ul class="navbar-nav">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        @if (!UserManager.GetUserAsync(User).Result.IsAdmin)
+        {
+            <li class="nav-item">
+                <a asp-controller="Donation" asp-action="MyFundRaisers" class="nav-link btn btn-light" style="margin-top:10px;color:black;">
+                    Your Fundraisers
+                </a>
+            </li>
+            <li class="nav-item">
+                &nbsp;&nbsp;&nbsp;
+            </li>
+        }
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle btn btn-light" style="margin-top:10px;color:black;" href="#" data-toggle="dropdown">
+                <i class="fa fa-user"></i>&nbsp;&nbsp;@UserManager.GetUserAsync(User).Result.Name
+            </a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" asp-controller="Transaction" asp-action="Index">
+                    <i class="fa fa-money">
+                    </i>&nbsp;&nbsp;Transactions
+                </a>
+                <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index">
+                    <i class="fa fa-gear">
+                    </i>&nbsp;&nbsp;Settings
+                </a>
+                <form id="myHiddenFormId" asp-area="Identity" asp-page="/Account/Logout" method="post" style="display: none">
+                    <input type="hidden" name="myParameterName" value="myParameterValue">
+                </form>
+                <a class="dropdown-item" href="#" onclick="$('#myHiddenFormId').submit(); return false;">
+                    <i class="fa fa-power-off"></i>&nbsp;&nbsp;Logout
+                </a>
+            </div>
+        </li>
+        @*<li class="nav-item">
+                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserAsync(User).Result.Name</a>
+            </li>
+            <li class="nav-item">
+                <form id="form" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <button type="submit" class="nav-link btn btn-light text-dark">Logout</button>
+                </form>
+            </li>*@
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="btn btn-light" asp-area="Identity" asp-page="/Account/Register" role="button">Register</a>
+        </li>
+        <li class="nav-item">
+            &nbsp;&nbsp;&nbsp;
+        </li>
+        <li class="nav-item">
+            <a class="btn btn-light" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        </li>
+    }
+</ul>

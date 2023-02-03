@@ -1,0 +1,67 @@
+﻿@model IEnumerable<OnlineDonation.Data.Entity.Donation>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<link href="~/css/Donation/Index.css" rel="stylesheet" />
+<section class="wrapper">
+    <div class="container-fostrap">
+        <div class="content">
+            <div class="container">
+                <div class="row">
+                    @{
+                        var i = 0;
+
+                    }
+                    @foreach (var item in Model)
+                    {
+
+                        @if (i == 3)
+                        {
+                            <div class="row">
+                            </div>
+                            i = 0;
+
+                        }
+                        <div class="col-md-4 col-sm-12">
+                            <div class="col-md-12">
+                                <a asp-controller="Donation" asp-action="ViewFundRaiser" asp-route-id="@item.Id" class="card-link">
+                                    <div class="card card-cascade card-cascade-narrower mb-5">
+                                        <img class="card-img-top" src="~/img/@item.ImagePath" width="200" height="250">
+                                        <div class="card-body">
+                                            <h3 class="card-title title">@item.Title</h3>
+                                            <h5 class="card-text text-justify text-secondary title">@item.RaisedMoneyFor</h5>
+                                            <p class="card-text text-justify description">@item.Description</p>
+
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        i += 1;
+
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@*<script>
+    $(document).ready(function () {
+        $(".title").each(function () {
+            var titleText = $(this).text();
+            if (titleText.length > 20) {
+                var truncated = titleText.trim().substring(0, 20).split(" ").slice(0, -1).join(" ") + "…";
+                $(this).text(truncated);
+            }
+        });
+        //$(".description").each(function () {
+        //    var descriptionText = $(this).text();
+        //    if (descriptionText.length > 100) {
+        //        var truncated = descriptionText.trim().substring(0, 100).split(" ").slice(0, -1).join(" ") + "…";
+        //        $(this).text(truncated);
+        //    }
+        //});
+    });
+
+</script>*@

@@ -1,0 +1,87 @@
+﻿@model IEnumerable<OnlineDonation.Data.Entity.WebAppUser>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Users</h1>
+<table class="table usersTable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SignupDate)
+            </th>
+            <th>
+                Actions
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SignupDate)
+            </td>
+            <td>
+                <a asp-action="Delete" asp-route-id="@item.Id" data-toggle="tooltip" title="Delete" class="text-danger ml-1" onclick="return confirm('Are you sure you want to delete @item.Name?')"><i class="fa fa-trash fa-lg"></i></a>
+                @if (item.AllowLocation)
+                {
+                    <a href="#" id="viewLocation" data-id="@item.Id" data-toggle="tooltip" title="View User Location" class="ml-1"><i class="fa fa-location-arrow fa-lg"></i></a>
+                }
+
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+        $('.usersTable').DataTable({
+            dom: "<'row'<'col-sm-6 col-md-6'><'col-sm-12 col-md-6'f>>" +
+                "<'row'<'col-sm-12 no-bottom-margin'rt>>" +
+                "<'row'<'col-sm-6 col-md-6'li><' col-sm-12 col-md-6'p>>",
+            responsive: true,
+            lengthChange: true,
+            info: false,
+            pagingType: "simple",
+            autoWidth: false,
+            columnDefs: [
+                { targets: 3, orderable: false }
+            ]
+        });
+
+        $(document).on('click', '#viewLocation', function () {
+            var userId = $(this).attr("data-id");
+            $.ajax({
+                url: "/Visitor/GetUserIp",
+                type: "POST",
+                data: jQuery.param({ userId: userId }),
+                success: function (result) {
+                    if (result == '') {
+                        alert("User can't get location!");
+                        return;
+                    }
+                    var json = JSON.parse(result)
+                    console.log(json);
+
+                    window.open('https://maps.google.com/?q=' + json.Latitude + ',' + json.Longitude, '_blank');
+                }
+            });
+
+        });
+    });
+</script>

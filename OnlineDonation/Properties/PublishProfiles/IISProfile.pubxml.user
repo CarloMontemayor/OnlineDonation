@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAU1BQU2rEZkKJXv+8dbshzgAAAAACAAAAAAAQZgAAAAEAACAAAABsUAkZhAj+j5ZC6XZdphY7XIcSBkIQYf8S7LmPjZdZlAAAAAAOgAAAAAIAACAAAADklY4Nw0McufWHguSI1uQU/KiW2Za4AG7RQrBtyLl15iAAAAAOCs0BkCuYZav4iyp6qQNhK1Chj5vbSDIJtoMvoM0LSEAAAAA5fv+QnxIws6fRRuUfY+J1U33AKJtVWkr89sGDPB9CSclDDy0LIxF2t8aPA/LLNchQBKpiiXxNkOLrLN7DdNUr</EncryptedPassword>
+    <History>True|2021-10-30T03:27:09.1545490Z;True|2021-10-25T21:32:40.3608113+08:00;True|2021-10-25T21:25:19.8385959+08:00;True|2021-10-25T01:07:08.7656296+08:00;True|2021-10-25T00:56:49.0570116+08:00;True|2021-10-25T00:40:15.3385866+08:00;True|2021-10-25T00:38:13.6231410+08:00;True|2021-10-21T22:58:35.6408708+08:00;True|2021-10-18T19:58:02.0923779+08:00;True|2021-10-18T19:56:14.4115375+08:00;False|2021-10-18T19:53:29.4807914+08:00;True|2021-10-10T06:43:54.7333347+08:00;True|2021-10-10T06:13:03.0705871+08:00;False|2021-10-10T06:09:48.9510229+08:00;</History>
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="DefaultConnection">
+      <Value>Data Source=SQL5104.site4now.net%3bInitial Catalog=db_a7ae46_onlinedonation%3bUser Id=db_a7ae46_onlinedonation_admin%3bPassword=Password1!</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+  <ItemGroup>
+    <EFMigrations Include="OnlineDonation.Data.ApplicationDbContext">
+      <Value>Data Source=SQL5104.site4now.net%3bInitial Catalog=db_a7ae46_onlinedonation%3bUser Id=db_a7ae46_onlinedonation_admin%3bPassword=Password1!</Value>
+    </EFMigrations>
+  </ItemGroup>
+</Project>
